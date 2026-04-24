@@ -1,0 +1,32 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        go: ['1.25', '1.26']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go }}
+      - run: go vet ./...
+      - run: go test ./... -race -count=1 -cover
+
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+      - run: go install mvdan.cc/gofumpt@latest
+      - run: gofumpt -l -d . | tee /tmp/gofumpt-out && test ! -s /tmp/gofumpt-out
+      - uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.60

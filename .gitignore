@@ -1,0 +1,30 @@
+# Binaries + test artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.prof
+/dist/
+/build/
+/bin/
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Go workspace
+vendor/
+go.work.local
+
+# Coverage
+coverage.out
+coverage.html
